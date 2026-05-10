@@ -1,0 +1,63 @@
+services:
+  postgres-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./osnova
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      DB_HOST: postgres-db
+      DB_PORT: 5432
+      DEBUG: "False"
+      FRONTEND_URL: https://videocall.store
+      ALLOWED_HOSTS: api.videocall.store,videocall.store,localhost,127.0.0.1
+      CSRF_TRUSTED_ORIGINS: https://videocall.store,https://api.videocall.store
+    depends_on:
+      - postgres-db
+    volumes:
+      - static_volume:/osnova/staticfiles
+      - media_volume:/osnova/media
+      - protected_volume:/osnova/protected_files
+
+  frontend:
+    build:
+      context: ./ProdajaKursovFront
+      args:
+        VITE_API_BASE_URL: https://api.videocall.store
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+      - static_volume:/static:ro
+      - media_volume:/media:ro
+    depends_on:
+      - frontend
+      - backend
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  protected_volume:
+  caddy_data:
+  caddy_config:

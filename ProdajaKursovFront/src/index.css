@@ -1,0 +1,584 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --glass-bg: rgba(214, 61, 107, 0.05); /* Osnova Pink with very low opacity */
+  --glass-stroke: rgba(214, 61, 107, 0.1);
+  /* Osnova Brand Colors Only: Blue #266479, Yellow #f2b749, Pink #d63d6b, Green #6da04b */
+  --gradient-1: conic-gradient(from 180deg at 50% 50%, #d63d6b, #f2b749, #d63d6b, #6da04b, #d63d6b);
+  
+  /* Theme variables */
+  --site-bg: #e6f1f6;
+  --header-bg: linear-gradient(100deg, #266479, #f2b749, #d63d6b, #6da04b);
+  --content-text: #0f2e3a;
+  --content-text-muted: #5a7280;
+  --btn-primary-bg: #0f2e3a;
+  --btn-primary-text: #ffffff;
+  --btn-primary-border: rgba(15, 46, 58, 0.30);
+  --btn-success-bg: #059669;
+  --btn-success-text: #ffffff;
+  --btn-success-border: rgba(5, 150, 105, 0.35);
+  --btn-danger-bg: #dc2626;
+  --btn-danger-text: #ffffff;
+  --btn-danger-border: rgba(220, 38, 38, 0.35);
+  --surface-bg: rgba(255, 255, 255, 0.85);
+  --surface-bg-strong: rgba(255, 255, 255, 0.88);
+}
+
+.text-red-50,
+.text-red-100,
+.text-red-200,
+.text-red-300 {
+  color: rgb(248 113 113) !important;
+}
+
+.text-red-400,
+.text-red-500,
+.text-red-600,
+.text-red-700 {
+  color: rgb(239 68 68) !important;
+}
+
+.btn-label {
+  display: inline-block;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+@media (max-aspect-ratio: 860/945) {
+  .btn-label { display: none !important; }
+  :where(button, [role="button"], a[href]):has(.btn-label) {
+    justify-content: center !important;
+    text-align: center;
+  }
+}
+/* Всегда показывать подпись, даже в мобильной ориентации */
+.btn-label-force {
+  display: inline-block !important;
+  max-width: 100%;
+  min-width: 0;
+}
+:where(button, [role="button"], a[href]) :where(.whitespace-nowrap) {
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-aspect-ratio: 860/945) {
+  .btn-label-force { white-space: normal !important; }
+}
+@media (max-width: 639px) {
+  .btn-label-force { white-space: normal !important; }
+  :where(button, [role="button"], a[href]):has(.btn-label) {
+    justify-content: center !important;
+    text-align: center;
+  }
+}
+ 
+/* В мобильной ориентации показывать только поиск в блоке «Админ‑панель» */
+@media (max-aspect-ratio: 860/945) {
+  .admin-mobile-hide { display: none !important; }
+}
+@media (max-width: 639px) {
+  .admin-mobile-hide { display: none !important; }
+}
+ 
+/* Кнопки/элементы, которые должны появляться только в мобильной ориентации */
+.admin-mobile-show { display: none; }
+@media (max-aspect-ratio: 860/945) {
+  .admin-mobile-show { display: inline-flex !important; }
+}
+@media (max-width: 639px) {
+  .admin-mobile-show { display: inline-flex !important; }
+}
+
+html, body, #root { 
+  height: 100%; 
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--site-bg);
+  color: var(--content-text);
+}
+
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+[role="button"],
+a[href],
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+[role="button"],
+a[href] {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.icon-btn svg {
+  display: block;
+}
+
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  min-height: 44px;
+}
+
+/* Глобально заменить все серые utility-классы Tailwind на сине‑серый */
+:where(:not(button):not(.btn):not(.button))[class*="text-gray-"] {
+  color: var(--content-text-muted) !important;
+}
+
+:where(.text-\[\#0f2e3a\]):not(button):not(.btn):not(.button) { color: var(--content-text) !important; }
+:where(.text-\[\#0f2e3a\]\/80):not(button):not(.btn):not(.button) { color: color-mix(in srgb, var(--content-text) 80%, transparent) !important; }
+:where(.text-\[\#0f2e3a\]\/70):not(button):not(.btn):not(.button) { color: color-mix(in srgb, var(--content-text) 70%, transparent) !important; }
+:where(.text-\[\#5a7280\]):not(button):not(.btn):not(.button) { color: var(--content-text-muted) !important; }
+
+:where(button, .btn, .button) :where(
+  [class*="text-gray-"],
+  [class*="text-white"],
+  .text-\[\#0f2e3a\],
+  .text-\[\#0f2e3a\]\/80,
+  .text-\[\#0f2e3a\]\/70,
+  .text-\[\#5a7280\]
+) {
+  color: inherit !important;
+}
+
+/* Scoped control of white utility color:
+   - Keep content dark inside glass/modal and cards
+   - Keep controls white (buttons, tabs, nav) */
+/* Do NOT darken buttons: preserve white text on controls */
+.glass:not([data-header="true"]):not([data-student-header="true"]) [class*="text-white"]:not(button):not(.btn):not(.button) { color: var(--content-text) !important; }
+.admin-card [class*="text-white"]:not(button):not(.btn):not(.button) { color: var(--content-text) !important; }
+.glass button [class*="text-white"],
+.admin-card button [class*="text-white"],
+button [class*="text-white"],
+.btn [class*="text-white"],
+.button [class*="text-white"] { color: inherit !important; }
+ 
+/* Plain button variant to remove gradient darkening */
+.btn-plain { 
+  background: var(--surface-bg-strong) !important; 
+  color: var(--content-text) !important;
+}
+.btn-plain:hover { 
+  background: var(--surface-bg-strong) !important; 
+  filter: none !important;
+}
+.btn-plain:active { 
+  background: var(--surface-bg-strong) !important; 
+  filter: none !important;
+}
+
+.btn-success-like {
+  background-color: var(--btn-success-bg) !important;
+  color: var(--btn-success-text) !important;
+  border: 1px solid var(--btn-success-border) !important;
+}
+.btn-success-like:hover { filter: brightness(110%); }
+.btn-success-like:active { filter: brightness(100%); }
+
+.modal-panel {
+  background: var(--surface-bg) !important;
+  color: var(--content-text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+}
+.modal-panel [class*="text-white"]:not(button):not(.btn):not(.button) { color: var(--content-text) !important; }
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.18) !important;
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}
+/* Однотонные поля внутри модалок (без градиентной подложки) */
+.modal-panel input,
+.modal-panel textarea,
+.modal-panel select {
+  background: var(--surface-bg-strong) !important;
+  color: var(--content-text) !important;
+  border: 1px solid rgba(38, 100, 121, 0.18) !important;
+  box-shadow: none !important;
+}
+.modal-item {
+  background: var(--surface-bg) !important;
+  color: var(--content-text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+.header-search-input {
+  background: var(--surface-bg) !important;
+  color: var(--content-text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  backdrop-filter: blur(12px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
+  box-shadow: none !important;
+}
+.header-search-input:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25) !important;
+}
+.header-search-icon {
+  color: var(--content-text-muted) !important;
+}
+
+/* Перезаписываем общий стиль поиска и спец-стиль student-header */
+.header-search-input[placeholder*="Поиск"] {
+  background: var(--surface-bg-strong) !important;
+  border: 1px solid rgba(38, 100, 121, 0.18) !important;
+  color: var(--content-text) !important;
+}
+.header-search-input[placeholder*="Поиск"]::placeholder {
+  color: var(--content-text-muted) !important;
+}
+.glass[data-student-header="true"] input.header-search-input[placeholder*="Поиск"] {
+  background: var(--surface-bg-strong) !important;
+  border: 1px solid rgba(38, 100, 121, 0.18) !important;
+  color: var(--content-text) !important;
+}
+.glass[data-student-header="true"] input.header-search-input[placeholder*="Поиск"]::placeholder {
+  color: var(--content-text-muted) !important;
+}
+:where(button, .btn, .button):where(
+  :not([data-theme-preview="true"]):not(.btn-plain):not([class*="btn-plain"]):not([class*="bg-osnova-pink"]):not([class*="bg-emerald-"]):not([class*="!bg-emerald-"]):not([class*="bg-red-"]):not([class*="!bg-red-"])
+) {
+  background-color: var(--btn-primary-bg) !important;
+  background-image: none !important;
+  color: var(--btn-primary-text) !important;
+  border: 1px solid var(--btn-primary-border) !important;
+  box-shadow: none;
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+  transition: transform .15s ease, filter .15s ease;
+}
+
+button[class*="bg-emerald-"]:not([data-theme-preview="true"]),
+button[class*="!bg-emerald-"]:not([data-theme-preview="true"]),
+.btn[class*="bg-emerald-"]:not([data-theme-preview="true"]),
+.btn[class*="!bg-emerald-"]:not([data-theme-preview="true"]),
+.button[class*="bg-emerald-"]:not([data-theme-preview="true"]),
+.button[class*="!bg-emerald-"]:not([data-theme-preview="true"]) {
+  background-color: var(--btn-success-bg) !important;
+  color: var(--btn-success-text) !important;
+  border-color: var(--btn-success-border) !important;
+}
+
+button[class*="bg-red-"]:not([data-theme-preview="true"]),
+button[class*="!bg-red-"]:not([data-theme-preview="true"]),
+.btn[class*="bg-red-"]:not([data-theme-preview="true"]),
+.btn[class*="!bg-red-"]:not([data-theme-preview="true"]),
+.button[class*="bg-red-"]:not([data-theme-preview="true"]),
+.button[class*="!bg-red-"]:not([data-theme-preview="true"]) {
+  background-color: var(--btn-danger-bg) !important;
+  color: var(--btn-danger-text) !important;
+  border-color: var(--btn-danger-border) !important;
+}
+button:hover, .btn:hover, .button:hover {
+  filter: brightness(110%);
+  transform: translateY(-1px);
+}
+button:active, .btn:active, .button:active {
+  filter: brightness(100%);
+  transform: translateY(0);
+}
+:where(button, .btn, .button)[data-no-lift="true"]:hover {
+  transform: translateY(0);
+}
+ 
+input, textarea, select {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: var(--content-text) !important;
+  border: 1px solid rgba(38, 100, 121, 0.18) !important;
+  box-shadow: none !important;
+  border-radius: 0.75rem !important;
+  padding: 0.5rem 0.75rem !important;
+  outline: none !important;
+  caret-color: #266479;
+}
+input::placeholder, textarea::placeholder { color: var(--content-text-muted) !important; }
+input:focus, textarea:focus, select:focus {
+  border-color: #266479 !important;
+}
+
+/* Скрыть вертикальный скроллбар */
+body::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+body {
+  scrollbar-width: none; /* Firefox */
+}
+html::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+html {
+  scrollbar-width: none; /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  scrollbar-width: none;
+}
+/* Скрытие скроллбара в основной области */
+main::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+main {
+  scrollbar-width: none; /* Firefox */
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.fixed.inset-0 {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.glass {
+  background: var(--header-bg);
+  backdrop-filter: saturate(140%) blur(8px);
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
+  border: 1px solid rgba(38, 100, 121, 0.14);
+  box-shadow: none;
+}
+
+.admin-card {
+  background-color: var(--surface-bg);
+  color: var(--content-text);
+  border: 1px solid rgba(38, 100, 121, 0.14);
+  box-shadow: none;
+}
+.admin-card input,
+.admin-card textarea,
+.admin-card select {
+  background: var(--surface-bg-strong) !important;
+  color: var(--content-text) !important;
+  border: 1px solid rgba(38, 100, 121, 0.18) !important;
+  box-shadow: none !important;
+}
+
+.admin-like-select {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.5rem 0.75rem !important;
+  color: var(--content-text) !important;
+  box-shadow: none !important;
+}
+
+.course-card {
+  background:
+    radial-gradient(var(--g1w, 700px) var(--g1h, 350px) at var(--g1x, 15%) var(--g1y, 10%), rgba(38, 100, 121, 0.14), transparent 60%),
+    radial-gradient(var(--g2w, 700px) var(--g2h, 350px) at var(--g2x, 85%) var(--g2y, 0%), rgba(242, 183, 73, 0.14), transparent 60%),
+    radial-gradient(var(--g3w, 800px) var(--g3h, 400px) at var(--g3x, 50%) var(--g3y, 120%), rgba(214, 61, 107, 0.14), transparent 65%),
+    radial-gradient(var(--g4w, 700px) var(--g4h, 350px) at var(--g4x, 0%) var(--g4y, 100%), rgba(109, 160, 75, 0.14), transparent 65%),
+    var(--surface-bg-strong);
+}
+
+.store-settings .course-card {
+  background: var(--surface-bg-strong) !important;
+  background-image: none !important;
+}
+
+.store-settings .course-card .bg-gradient-to-t {
+  display: none !important;
+}
+
+.store-courses .course-card {
+  background: var(--surface-bg-strong) !important;
+  background-image: none !important;
+}
+
+.store-courses .course-card .bg-gradient-to-t {
+  display: none !important;
+}
+
+.student-banner {
+  background: rgba(0, 0, 0, 0.12);
+  backdrop-filter: saturate(140%) blur(10px);
+  -webkit-backdrop-filter: saturate(140%) blur(10px);
+}
+
+/* Оптимизация для header с статичным фоном */
+.glass.fixed[data-header="true"] {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  isolation: isolate;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  contain: layout style paint;
+}
+
+/* Дополнительная оптимизация для элементов с backdrop-filter */
+.glass {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+/* Специальные стили для header - статичный фон вместо backdrop-filter */
+header.glass,
+.glass[data-header="true"] {
+  background: var(--header-bg) !important;
+  /* Убрали явный border, теперь полагаемся только на box-shadow или чистый фон */
+  border: none !important; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 1rem !important; /* Скругление области хедера */
+  padding: 0.75rem 1.5rem !important; /* Нормальная толщина */
+}
+.glass[data-student-header="true"] {
+  background: var(--header-bg) !important;
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 1rem !important;
+  padding: 0.75rem 1.5rem !important;
+  color: var(--btn-primary-text) !important;
+}
+.glass[data-student-header="true"] [class*="text-white"]:not(.keep-white) {
+  color: var(--btn-primary-text) !important;
+}
+.glass[data-student-header="true"] input[placeholder*="Поиск"] {
+  color: var(--btn-primary-text) !important;
+}
+.glass[data-student-header="true"] input[placeholder*="Поиск"]::placeholder {
+  color: color-mix(in srgb, var(--btn-primary-text) 55%, transparent) !important;
+}
+/* Панель с контролируемым блюром (без паразитной полосы) */
+.glass[data-panel="true"] {
+  backdrop-filter: saturate(160%) blur(10px) !important;
+  -webkit-backdrop-filter: saturate(160%) blur(10px) !important;
+  background: rgba(0, 0, 0, 0.45) !important;
+  box-shadow: 
+    0 8px 40px rgba(0,0,0,.35), 
+    inset 0 1px 0 rgba(255,255,255,.06) !important;
+  isolation: isolate;
+  background-clip: padding-box;
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.glass[data-panel="true"][data-edu-filter="true"] {
+  background: var(--edu-filter-bg) !important;
+  border-color: var(--edu-filter-border) !important;
+}
+
+.glass[data-searchbar="true"] {
+ backdrop-filter: saturate(180%) blur(18px);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  background: var(--search-bg) !important;
+  border: 1px solid var(--glass-stroke) !important;
+  box-shadow: none !important;
+  border-radius: 1.1rem !important; /* rounded-xl */
+}
+
+/* Fluid canvas background */
+.fluid {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: -25;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+}
+/* Единый стиль полей поиска */
+input[placeholder*="Поиск"] {
+  background: rgba(255, 255, 255, 0.70) !important;
+  border: 1px solid rgba(38, 100, 121, 0.18) !important;
+  box-shadow: none !important;
+  color: var(--content-text) !important;
+  border-radius: 0.75rem !important;
+  padding-left: 2.75rem !important;
+}
+input[placeholder*="Поиск"]::placeholder { color: var(--content-text-muted) !important; }
+
+/* Обрезка контента в области header на десктопе */
+@media (min-width: 768px) {
+  /* Header поверх всего контента */
+  .glass[data-header="true"] {
+    z-index: 10000 !important;
+    position: fixed !important;
+  }
+  .glass[data-header="true"][data-admin-header="true"] {
+    position: static !important;
+    z-index: 1 !important;
+  }
+  .glass[data-student-header="true"] { z-index: 1 !important; }
+  
+  /* Контент должен быть под header и обрезаться в его области */
+  /* Header находится на top: 1rem (16px), высота примерно 3.5rem (56px), итого ~72px от верха */
+  main {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Контент скрывается за header при прокрутке */
+}
+
+/* Custom scrollbar for specific containers */
+.custom-scrollbar::-webkit-scrollbar {
+  display: block !important;
+  width: 10px;
+  height: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(38, 100, 121, 0.3);
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(38, 100, 121, 0.5);
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(38, 100, 121, 0.3) rgba(0, 0, 0, 0.05);
+}
