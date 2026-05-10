@@ -125,13 +125,23 @@ export default function AdminDocuments() {
           if (doc.id) {
             setItems(prev => prev.map(i => (i.id === tempId ? doc : i)))
           } else {
-            setItems(prev => prev.filter(i => i.id !== tempId))
+            setItems(prev => prev.map(i => (i.id === tempId ? { ...i, uploading: true } : i)))
           }
         } catch {
           setItems(prev => prev.filter(i => i.id !== tempId))
           setError(`Не удалось загрузить файл "${f.name}"`)
         }
       }
+      try {
+        const list = await api.documents.listAll()
+        const arr = Array.isArray(list) ? list : (Array.isArray(list?.results) ? list.results : [])
+        const fresh = arr.map(normalize).filter(x => x.id)
+        setItems(prev => {
+          const temps = (Array.isArray(prev) ? prev : []).filter(i => String(i?.id || '').startsWith('tmp_'))
+          const remainingTemps = temps.filter(t => !fresh.some(d => d.name === t.name && d.size === t.size))
+          return [...fresh, ...remainingTemps]
+        })
+      } catch { void 0 }
     } catch {
       setError('Не удалось загрузить файл')
     } finally {
