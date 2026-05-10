@@ -1292,13 +1292,13 @@ export default function ThemeSettingsModal({ open, onClose, variant = 'modal' })
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <label className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 border border-white/10 text-white hover:bg-white/15 transition cursor-pointer text-sm font-semibold">
+                      <label className="relative flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 border border-white/10 text-white hover:bg-white/15 transition cursor-pointer text-sm font-semibold overflow-hidden">
                         <ImageIcon size={16} />
                         Загрузить
                         <input
                           type="file"
                           accept="image/*"
-                          className="hidden"
+                          className="absolute inset-0 opacity-0 cursor-pointer"
                           onChange={(e) => {
                             const file = e.target.files && e.target.files[0]
                             e.target.value = ''
