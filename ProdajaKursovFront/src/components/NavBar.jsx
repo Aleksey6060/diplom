@@ -26,6 +26,12 @@ export default function NavBar() {
   const canOpenDesign = !isEmployee || hasPermission('design.access')
   const isTeacherRoute = pathWithoutUniversity.startsWith('/teacher')
   const isAdminRoute = pathWithoutUniversity.startsWith('/admin')
+  const logoSizePx = Math.min(44, Math.max(16, Number.isFinite(Number(logo?.size)) ? Number(logo.size) : 32))
+  const logoRadiusPx = Math.min(999, Math.max(0, Number.isFinite(Number(logo?.radius)) ? Number(logo.radius) : 999))
+  const logoPaddingPx = Math.min(24, Math.max(0, Number.isFinite(Number(logo?.padding)) ? Number(logo.padding) : 0))
+  const logoBgAlpha = Math.min(1, Math.max(0, Number.isFinite(Number(logo?.bgAlpha)) ? Number(logo.bgAlpha) : 0.1))
+  const logoBorderAlpha = Math.min(1, Math.max(0, Number.isFinite(Number(logo?.borderAlpha)) ? Number(logo.borderAlpha) : 0.1))
+  const logoFit = logo?.objectFit === 'contain' ? 'contain' : 'cover'
 
   return (
     <motion.header
@@ -39,12 +45,12 @@ export default function NavBar() {
           <div
             className="shrink-0 shadow-[0_0_18px_rgba(56,189,248,0.25)] overflow-hidden"
             style={{
-              width: `${Number.isFinite(Number(logo?.size)) ? Number(logo.size) : 32}px`,
-              height: `${Number.isFinite(Number(logo?.size)) ? Number(logo.size) : 32}px`,
-              borderRadius: `${Number.isFinite(Number(logo?.radius)) ? Number(logo.radius) : 999}px`,
-              padding: `${Number.isFinite(Number(logo?.padding)) ? Number(logo.padding) : 0}px`,
-              background: `rgba(255,255,255,${Math.min(1, Math.max(0, Number.isFinite(Number(logo?.bgAlpha)) ? Number(logo.bgAlpha) : 0.1))})`,
-              border: `1px solid rgba(255,255,255,${Math.min(1, Math.max(0, Number.isFinite(Number(logo?.borderAlpha)) ? Number(logo.borderAlpha) : 0.1))})`
+              width: `${logoSizePx}px`,
+              height: `${logoSizePx}px`,
+              borderRadius: `${logoRadiusPx}px`,
+              padding: `${logoPaddingPx}px`,
+              background: `rgba(255,255,255,${logoBgAlpha})`,
+              border: `1px solid rgba(255,255,255,${logoBorderAlpha})`
             }}
           >
             {logo?.src ? (
@@ -55,7 +61,7 @@ export default function NavBar() {
                 style={{
                   width: '100%',
                   height: '100%',
-                  objectFit: logo?.objectFit === 'contain' ? 'contain' : 'cover',
+                  objectFit: logoFit,
                   display: 'block'
                 }}
               />
