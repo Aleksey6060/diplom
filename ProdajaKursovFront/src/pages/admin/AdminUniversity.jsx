@@ -395,7 +395,7 @@ export default function AdminUniversity() {
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <a
-                        href={`/${u.slug}/admin/courses`}
+                        href={`/${u.slug}/admin/courses?university_scope=1`}
                         onClick={(e) => e.stopPropagation()}
                         className="px-3 py-2 rounded-xl bg-white border border-[#266479]/20 text-[#0f2e3a] hover:bg-black/5 flex items-center gap-1"
                         title="Перейти в университет"
